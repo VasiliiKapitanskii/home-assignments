@@ -1,0 +1,22 @@
+name: 'dwh'
+version: '1.0.0'
+config-version: 2
+require-dbt-version: ">=1.2.0"
+
+profile: 'dwh'
+
+model-paths: ["models", "schemas", "sources"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dwh:
+    +materialized: incremental
+    +on_schema_change: sync_all_columns

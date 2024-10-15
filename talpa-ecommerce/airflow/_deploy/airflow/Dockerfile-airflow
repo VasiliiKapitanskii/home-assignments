@@ -1,0 +1,31 @@
+# Build stage
+FROM python:3.7-slim AS build-stage
+LABEL stage=builder
+WORKDIR /pkgs
+
+RUN apt-get update && \
+    apt-get install -y libpq-dev gcc libsasl2-dev libcurl4-openssl-dev libssl-dev g++
+
+RUN pip install -U pip setuptools requests
+
+ADD _deploy/airflow/dev-requirements.txt /tmp
+RUN pip wheel -r /tmp/dev-requirements.txt
+
+# Final stage
+FROM python:3.7-slim
+RUN apt-get update && \
+    apt-get install -y libpq5 jq
+
+ENV PATH /venv/bin:$PATH
+
+COPY _deploy/airflow/bin /usr/bin
+
+RUN --mount=type=bind,from=build-stage,source=/pkgs,target=/tmp/pkgs \
+    pip install -U pip setuptools && \
+    pip install --no-cache-dir --no-deps /tmp/pkgs/* && \
+    echo "(airflow scheduler &) && airflow webserver" > /usr/bin/run && \
+    chmod +x /usr/bin/prepare.sh /usr/bin/entrypoint.sh /usr/bin/run
+
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+
+CMD "run"

@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: orders
+    schema: PUBLIC
+    description: Transformed data from sample.csv
+    columns:
+      - name: order_id
+        description: Unique identifier for the order
+        tests:
+          - unique
+          - not_null
+      - name: source
+        description: Source of the order
+        tests:
+          - not_null
+      - name: customer_id
+        description: Unique identifier for the customer
+        tests:
+          - not_null
+      - name: payment_id
+        description: Unique identifier for the payment
+      - name: voucher_id
+        description: Unique identifier for the voucher
+      - name: product_id
+        description: Unique identifier for the product
+      - name: website
+        description: Website where the order was placed
+        tests:
+          - not_null
+      - name: order_status
+        description: Status of the order
+        tests:
+          - not_null
+      - name: voucher_status
+        description: Status of the voucher
+      - name: payment_status
+        description: Status of the payment
+      - name: order_date
+        description: Date and time when the order was placed
+        tests:
+          - not_null
+      - name: payment_date
+        description: Date and time when the payment was made
