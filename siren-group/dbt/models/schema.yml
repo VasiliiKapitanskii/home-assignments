@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_leads
+    description: Leads data
+    columns:
+      - name: entry_date
+        tests:
+          - not_null
+      - name: entry_month
+        tests:
+          - not_null
+      - name: lead_number
+        tests:
+          - not_null
+      - name: email_hash
+        tests:
+          - not_null
+      - name: phone_hash
+        tests:
+          - not_null
+      - name: city
+      - name: state
+      - name: zip
+      - name: appt_datetime
+      - name: set
+      - name: demo
+      - name: dispo
+      - name: job_status
+      - name: lead_uuid
+        tests:
+          - not_null
