@@ -1,13 +1,13 @@
 
 # Take-home Assignment
-For the Data Warehouse Engineer role at Just Eat Takeaway
+For the Data Warehouse Engineer role at [Just Eat Takeaway](https://www.justeattakeaway.com/)
 
 Estimated effort:
   - 1 day to learn Dagster and ClickHouse from scratch
   - 1 day to develop the solution
 
 ## Setup
-  - Install python, Docker, VSCode (or any other IDE of your taste)
+  - Install Python, Docker, VSCode (or any other IDE of your taste)
   - Make a copy of the [`.env.example`](.env.example) file and rename it to `.env`
   - Replace the `replace` values with the correct values
   - Run the following commands:
@@ -21,7 +21,7 @@ Estimated effort:
     - This will:
       - Set up Docker infrastructure (Dagster and webserver, ClickHouse DWH, and Keeper)
       - Check connectivity to ClickHouse
-      - Create a python virtual environment
+      - Create a Python virtual environment
       - Install python dependencies and dbt packages
       - Export the environment variables
   - Open [`Dagster jobs web UI`](http://127.0.0.1:3000/jobs) and run
@@ -59,7 +59,7 @@ EDA helps to understand the data and identify potential challenges for the subse
 
     All raw data from Amazon is meant to go on S3 first via CSV files for the following processing using Dagster.
 
-    IAM and data retention with using hot/cold storages are set up to achieve maximum security, speed and economy.
+    IAM and data retention with using hot/cold storage are set up to achieve maximum security, speed, and economy.
 
 3. 👨‍🔧 Built ClickHouse DWH
 
@@ -83,7 +83,7 @@ EDA helps to understand the data and identify potential challenges for the subse
 
     Data cleansing is handled through dbt staging layer models, following the medallion architecture for progressive data quality improvements.
 
-          To achieve better team coordination and project usability, Dagster module is ready to be built using docker-compose for local environments via prepared shell scripts (see above). For production, it can be deployed on Kubernetes (EKS, GKE, AKS) using the included docker file or pre-generated docker-image.
+    To achieve better team coordination and project usability, Dagster module is ready to be built using docker-compose for local environments via prepared shell scripts (see above). For production, it can be deployed on Kubernetes (EKS, GKE, AKS) using the included docker file or pre-generated docker-image.
 
 5. 👨‍🔧 Built Kimball (Snowflake) Dimensional dbt Schema (gold layer)
 
@@ -107,7 +107,7 @@ EDA helps to understand the data and identify potential challenges for the subse
 
     About 60 `dbt/dbt_utils` tests were added, including tests for uniqueness, nullability, and acceptable ranges.
 
-    dbt exposures and schema contract enforcement was applied on analytics models to ensure data consumers' expectations are met.
+    dbt exposures and schema contract enforcement were applied to analytics models to ensure data consumers' expectations were met.
 
 8. 👨‍🔧 Deployed and Tested the Solution
 
@@ -117,7 +117,7 @@ EDA helps to understand the data and identify potential challenges for the subse
 
 9. 👨‍🔧 Generated Assignment Artifacts
 
-    ER diagram, dbt static docs, and Dagster lineage are vailable in `/artifacts`
+    ER diagram, dbt static docs, and Dagster lineage are available in `/artifacts`
 
 ## Improvements and TODOs
   Several non-critical issues and potential improvements were identified, including:
@@ -127,7 +127,7 @@ EDA helps to understand the data and identify potential challenges for the subse
   - SQLFluff for ClickHouse needs further attention for accurate linting.
   - A small number of CSV parsing errors are currently allowed for simplicity; this can be adjusted to ensure all rows are processed.
   - The solution is not optimized for large-scale datasets.
-    - However, on a ~10 years old CPU with 2 GB memory available for Docker Dagster instance, the data pipeline and dbt full refresh takes less then one minute with the majority of time spent on networking from S3.
+    - However, on a ~10-year-old CPU with 2 GB memory available for Docker Dagster instance, the data pipeline and dbt full refresh takes less than one minute with the majority of time spent on networking from S3.
     - Thus, the current solution allows to process 10x bigger data volume several times a day, as per the `good to have` assignment instructions.
 
 Performance improvements for larger datasets/more frequent loads include:
@@ -154,7 +154,7 @@ Performance improvements for larger datasets/more frequent loads include:
     - Storage improvements (compression, cold storage).
     - Monitoring and notifications (Prometheus or AWS-native tools).
     - Fault tolerance via multi-zone/multi-region deployment.
-    - Other security (Vault, AWS-native vaults and key storages)
+    - Other security (Vault, AWS-native vaults, and key storage)
   - Datawarehousing
     - Role-based access control (DBT, AWS IAM, Terraform).
     - Data management standards ([ISO 8000](https://www.iso.org/standard/81745.html)/[DAMA-DMBOK](https://www.dama.org/cpages/home)/DCAM/LEAN).
