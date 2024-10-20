@@ -25,12 +25,12 @@ Estimated effort:
       - Install python dependencies and dbt packages
       - Export the environment variables
   - Open [`Dagster jobs web UI`](http://127.0.0.1:3000/jobs) and run
-    - [init_databases job](http://127.0.0.1:3000/locations/source/jobs/init_databases) to create `raw_thirdparty` and `dwh_dev` databases
-    - [init_tables job](http://127.0.0.1:3000/locations/source/jobs/init_tables) to create raw tables for Amazon reviews and metadata
+    - `init_databases` job to create `raw_thirdparty` and `dwh_dev` databases
+    - `init_tables` job to create raw tables for Amazon reviews and metadata
 
     <img src="assets/jobs.png" alt="jobs" width="450"/>
 
-  - Enable [jet_metadata_s3_sensor](http://127.0.0.1:3000/locations/source/sensors/jet_metadata_s3_sensor) and [jet_reviews_s3_sensor](http://127.0.0.1:3000/locations/source/sensors/jet_reviews_s3_sensor) sensors to start the pipelines
+  - Enable `jet_metadata_s3_sensor` and `jet_reviews_s3_sensor` sensors to start the pipelines
 
       <img src="assets/sensor.png" alt="er_diagram" width="450"/>
 
@@ -52,7 +52,7 @@ The following steps outline the solution development process:
 
 1. 👨‍🔧 Performed Exploratory Data Analysis (EDA)
 
-    Using Python Notebooks and DuckDB, a sample data analysis was conducted. This can be viewed in [analysis/exploratory_analysis.ipynb](analysis\exploratory_analysis.ipynb).
+    Using Python Notebooks and DuckDB, a sample data analysis was conducted. This can be viewed in [analysis/exploratory_analysis.ipynb](analysis/exploratory_analysis.ipynb).
 EDA helps to understand the data and identify potential challenges for the subsequent steps. Notebooks are a convenient way to perform quick analyses, understand the data structure, and plot graphs for visual insights.
 
 2. 👨‍🔧 Built Data Lake on AWS S3
@@ -88,20 +88,20 @@ EDA helps to understand the data and identify potential challenges for the subse
 5. 👨‍🔧 Built Kimball (Snowflake) Dimensional dbt Schema (gold layer)
 
     A snowflake schema was developed for the following main entities:
-      - [mrt_fact_product_review](dbt\models\mart\amazon\mrt_fact_product_review\mrt_fact_product_review.sql): Central fact table with product reviews
-      - [mrt_dim_date](dbt\models\mart\common\mrt_dim_date\mrt_dim_date.sql): Date dimension for reporting
-      - [mrt_dim_reviewer](dbt\models\mart\amazon\mrt_dim_reviewer\mrt_dim_reviewer.sql): Reviewer dimension
-      - [mrt_dim_product](dbt\models\mart\amazon\mrt_dim_product\mrt_dim_product.sql): Product dimension
-      - [mrt_dim_brand](dbt\models\mart\amazon\mrt_dim_brand\mrt_dim_brand.sql): Product brand dimension
-      - [mrt_dim_category](dbt\models\mart\amazon\mrt_dim_category\mrt_dim_category.sql): Product category dimension
+      - [mrt_fact_product_review](dbt/models/mart/amazon/mrt_fact_product_review/mrt_fact_product_review.sql): Central fact table with product reviews
+      - [mrt_dim_date](dbt/models/mart/common/mrt_dim_date/mrt_dim_date.sql): Date dimension for reporting
+      - [mrt_dim_reviewer](dbt/models/mart/amazon/mrt_dim_reviewer/mrt_dim_reviewer.sql): Reviewer dimension
+      - [mrt_dim_product](dbt/models/mart/amazon/mrt_dim_product/mrt_dim_product.sql): Product dimension
+      - [mrt_dim_brand](dbt/models/mart/amazon/mrt_dim_brand/mrt_dim_brand.sql): Product brand dimension
+      - [mrt_dim_category](dbt/models/mart/amazon/mrt_dim_category/mrt_dim_category.sql): Product category dimension
 
       ![er_diagram](artifacts/er_diagram.svg)
 
 6. 👨‍🔧 Built dbt Analytics Models
 
     The next models were built to analyze Amazon reviews:
-    - [mrt_analytics_brand_ratings](dbt\models\mart\analytics\mrt_analytics_brand_ratings\mrt_analytics_brand_ratings.sql): Review ratings per brand, per month
-    - [mrt_analytics_category_ratings](dbt\models\mart\analytics\mrt_analytics_category_ratings\mrt_analytics_category_ratings.sql): Review ratings per category, per month
+    - [mrt_analytics_brand_ratings](dbt/models/mart/analytics/mrt_analytics_brand_ratings/mrt_analytics_brand_ratings.sql): Review ratings per brand, per month
+    - [mrt_analytics_category_ratings](dbt/models/mart/analytics/mrt_analytics_category_ratings/mrt_analytics_category_ratings.sql): Review ratings per category, per month
 
 7. 👨‍🔧 Added dbt Data Quality Checks, Tests, and Exposures
 
