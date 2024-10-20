@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: ecom
+    schema: "{{ env_var('PROJECT_RAW_SCHEMA', 'project_raw') }}"
+    description: E-commerce data
+    meta:
+      external_location: "read_csv_auto('./seeds/{name}.csv', header=1)"
+    tables:
+      - name: raw_leads
+        description: Leads

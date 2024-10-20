@@ -1,0 +1,12 @@
+clickhouse-connect
+clickhouse-driver
+dagster
+dagster-aws
+dagster-dbt
+dagster-docker
+dagster-webserver
+dbt-clickhouse
+dbt-core
+infi.clickhouse_orm
+pandahouse
+pandas

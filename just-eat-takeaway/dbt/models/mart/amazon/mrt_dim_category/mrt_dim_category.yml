@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: mrt_dim_category
+    description: Dimensional table with amazon products categories.
+
+    config:
+      alias: dim_category
+      materialized: incremental
+      order_by: category_id
+      unique_key: category_id
+      tags:
+        - test
+
+    columns:
+
+      - name: _meta_loaded_at
+        description: "Timestamp of the data load."
+
+      - name: category_id
+        description: "ID of the category, MD5 of its name"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: category_name
+        description: "Category name of the product, e.g.: Clothing, Shoes & Jewelry"
+        data_tests:
+          - unique
+          - not_null

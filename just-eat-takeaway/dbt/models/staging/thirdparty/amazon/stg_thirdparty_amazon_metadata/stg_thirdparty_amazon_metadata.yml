@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: stg_thirdparty_amazon_metadata
+    description: |
+      Raw incremental table with amazon products metadata.
+
+      ### Notes
+
+      - Only the first (main) category in the hierarchy of categories taken for analysis
+      - If there are multiple category hierarchies present for a product, only distinct main categories will remain
+
+    config:
+      alias: staging_amazon_metadata
+      materialized: incremental
+      order_by: metadata_id
+      unique_key: metadata_id
+      tags:
+        - test
+
+    columns:
+
+      - name: _meta_run_id
+        description: "Dagster run ID."
+
+      - name: _meta_loaded_from
+        description: "Path to S3 file used to load data from."
+
+      - name: _meta_loaded_at
+        description: "Timestamp of the data load."
+
+      - name: metadata_id
+        description: "Unique identifier for the metadata entry, e.g.: 2005401"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: product_id
+        description: "Amazon Standard Identification Number (ASIN) of the product, e.g.: B00004SR8Z"
+        data_tests:
+          - not_null
+
+      - name: sales_rank
+        description: "Sales rank of the product by category, e.g.: {'Clothing': 1631}"
+
+      - name: image_url
+        description: "URL of the product image, e.g.: http://ecx.images-amazon.com/images/I/41RfWLMDFWL._SY445_.jpg"
+        data_tests:
+          - not_null
+
+      - name: category_names
+        description: "Array of category names that the product belongs to, e.g.: ['Clothing, Shoes & Jewelry']"
+
+      - name: category_ids
+        description: "Array of category ids (MD5 keys) that the product belongs to"
+
+      - name: title
+        description: "Title of the product, e.g.: Lewis N. Clark Deluxe Neck Stash"
+
+      - name: price
+        description: "Price of the product in USD, e.g.: 12.8"
+
+      - name: related
+        description: "Products related to this item, including also_bought and also_viewed, e.g.: {'also_bought': ['B004RJWFDU'], 'also_viewed': ['B00920ZC3Y']}"
+
+      - name: brand_name
+        description: "Brand name of the product, e.g.: Lewis N. Clark"
+
+      - name: brand_id
+        description: "ID of the brand, MD5 of its name"

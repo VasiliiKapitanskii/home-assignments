@@ -1,0 +1,14 @@
+version: 2
+
+exposures:
+
+  - name: analytics_ratings
+    type: dashboard
+    owner:
+      name: Vasilii Kapitanskii
+      email: vasiliy.kapitanskiy@gmail.com
+    meta:
+      exposure_type: reporting_application
+    depends_on:
+      - ref('mrt_analytics_brand_ratings')
+      - ref('mrt_analytics_category_ratings')

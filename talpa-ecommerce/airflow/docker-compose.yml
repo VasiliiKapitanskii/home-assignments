@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5433:5433
+  airflow-engine:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: _deploy/airflow/Dockerfile-airflow
+    init: true
+    restart: unless-stopped
+    volumes:
+      - ./dags:/root/airflow/dags
+      - ./plugins:/root/airflow/plugins
+      - ./local_connections.yaml:/root/local_connections.yaml
+      - ~/.aws:/root/.aws
+    ports:
+      - 8889:8889
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW_HOME=/root/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__API__AUTH_BACKEND=airflow.api.auth.backend.basic_auth
+      - AIRFLOW_VAR_BRANCH_NAME=$BRANCH_NAME
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@db/postgres
+      - AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8889
+      - CONNECTIONS_FILE=/root/local_connections.yaml
+    depends_on:
+      - db

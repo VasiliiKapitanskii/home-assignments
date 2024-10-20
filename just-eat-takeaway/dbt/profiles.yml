@@ -1,0 +1,19 @@
+jet_dbt:
+  target: "{{ env_var('AWS_ENV')}}"
+  outputs:
+    common: &common
+      type: clickhouse
+      user: "{{ env_var('DBT_CLICKHOUSE_USER_LOGIN') }}"
+      password: "{{ env_var('DBT_CLICKHOUSE_PASSWORD') }}"
+      host: "{{ env_var('DBT_CLICKHOUSE_HOST') }}"
+      port: 8123
+      threads: 10
+    dev: &dev
+      <<: *common
+      schema: dwh_dev
+    test: &test
+      <<: *common
+      schema: dwh_test
+    prod: &prod
+      <<: *common
+      schema: dwh_prod

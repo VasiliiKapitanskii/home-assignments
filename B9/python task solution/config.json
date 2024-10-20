@@ -1,0 +1,11 @@
+{
+    "base_url": "http://data.fixer.io/api/{}?access_key={}&base={}&symbols={}&format=1",
+    "access_key": "414d785237d2fb35040311ce7e17309e",
+    "base_currency": "EUR",
+    "symbols": ["USD","MXN"],
+    "days_past": 14,
+    "log_file": "app.log",
+    "output_csv": "rates.csv",
+    "output_plot": "rates.png"
+  }
+  

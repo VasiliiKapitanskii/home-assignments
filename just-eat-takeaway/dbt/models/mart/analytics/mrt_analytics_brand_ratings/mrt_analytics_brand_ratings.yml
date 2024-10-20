@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: mrt_analytics_brand_ratings
+    description: |
+      Analysis table showing the review rating per brand per month.
+
+      ### Notes
+
+      - Assuming the task description means a calendar month, not an actual specific month on the timeline
+
+    config:
+      alias: analytics_brand_ratings
+      materialized: table
+      contract:
+        enforced: true
+      tests:
+        - unique:
+            column_name: "(month_name || '-' || brand_name)"
+      tags:
+        - test
+
+    columns:
+
+      - name: month_name
+        description: "Month name, e.g.: January"
+        data_type: String
+        data_tests:
+          - not_null
+
+      - name: brand_name
+        description: "Name of the brand"
+        data_type: String
+        data_tests:
+          - not_null
+
+      - name: avg_overall_rating
+        description: "Average overall rating per brand per month"
+        data_type: Float64
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 5

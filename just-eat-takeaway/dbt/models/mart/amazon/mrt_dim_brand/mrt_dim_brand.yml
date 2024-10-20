@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: mrt_dim_brand
+    description: Dimensional table with amazon products brands.
+
+    config:
+      alias: dim_brand
+      materialized: incremental
+      order_by: brand_id
+      unique_key: brand_id
+      tags:
+        - test
+
+    columns:
+
+      - name: _meta_loaded_at
+        description: "Timestamp of the data load."
+
+      - name: brand_id
+        description: "ID of the brand, MD5 of its name"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: brand_name
+        description: "Brand name of the product, e.g.: Lewis N. Clark"
+        data_tests:
+          - unique
+          - not_null

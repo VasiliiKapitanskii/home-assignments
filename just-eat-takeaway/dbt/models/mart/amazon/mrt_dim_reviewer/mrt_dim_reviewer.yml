@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: mrt_dim_reviewer
+    description: Dimensional table with amazon products reviewers.
+
+    config:
+      alias: dim_reviewer
+      materialized: incremental
+      order_by: reviewer_id
+      unique_key: reviewer_id
+      tags:
+        - test
+
+    columns:
+
+      - name: _meta_loaded_at
+        description: "Timestamp of the data load."
+
+      - name: reviewer_id
+        description: "Unique identifier for the reviewer, e.g.: A1KLRMWW2FWPL4"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: reviewer_name
+        description: "Name of the reviewer, e.g.: Amazon Customer 'cameramom'"
+        data_tests:
+          - not_null
