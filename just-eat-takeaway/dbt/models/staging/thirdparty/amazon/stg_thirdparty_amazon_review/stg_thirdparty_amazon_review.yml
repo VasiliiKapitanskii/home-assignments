@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: stg_thirdparty_amazon_review
+    description: Staging table with amazon products reviews.
+
+    config:
+      alias: staging_amazon_review
+      materialized: incremental
+      order_by: surrogate_key
+      unique_key: surrogate_key
+      tags:
+        - test
+
+    columns:
+      - name: _meta_run_id
+        description: "Dagster run ID."
+
+      - name: _meta_loaded_from
+        description: "Path to S3 file used to load data from."
+
+      - name: _meta_loaded_at
+        description: "Timestamp of the data load."
+
+      - name: surrogate_key
+        description: "Surrogate key for the record, based on MD5 of reviewer_id + product_id + unix_review_time"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: reviewer_id
+        description: "Unique identifier for the reviewer, e.g.: A1KLRMWW2FWPL4"
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: "Amazon Standard Identification Number (ASIN) of the product, e.g.: 31887"
+
+      - name: reviewer_name
+        description: "Name of the reviewer, e.g.: Amazon Customer 'cameramom'"
+
+      - name: upvotes
+        description: "Number of upvotes on the review, e.g.: 0"
+        data_tests:
+          - not_null
+
+      - name: downvotes
+        description: "Number of downvotes on the review, e.g.: 0"
+        data_tests:
+          - not_null
+
+      - name: review_text
+        description: "Full text of the product review, e.g.: This is a great tutu and at a really great price. It doesn't look cheap at all."
+
+      - name: overall_rating
+        description: "Overall rating given by the reviewer (1-5 scale), e.g.: 5"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 5
+
+      - name: summary
+        description: "Brief summary of the review, e.g.: Great tutu - not cheaply made"
+
+      - name: unix_review_time
+        description: "Time the review was posted, in Unix timestamp format, e.g.: 1297468800"
+        data_tests:
+          - not_null
+
+      - name: review_date
+        description: "Date the review was posted, e.g.: 2011-01-01"
+        data_tests:
+          - not_null

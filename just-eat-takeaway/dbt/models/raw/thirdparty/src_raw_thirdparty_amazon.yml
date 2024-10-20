@@ -1,0 +1,99 @@
+version: 2
+
+sources:
+  - name: raw_thirdparty_amazon
+    database: raw_thirdparty
+
+    freshness:
+      error_after:
+        count: 1
+        period: day
+    loaded_at_field: _meta_loaded_at
+
+    tables:
+      - name: amazon_review
+        description: "Amazon product reviews dataset containing customer feedback and ratings."
+        meta:
+          dagster:
+            asset_key: ["raw_amazon_reviews"]
+        columns:
+          - name: _meta_run_id
+            description: "Dagster run ID."
+
+          - name: _meta_loaded_from
+            description: "Path to S3 file used to load data from."
+
+          - name: _meta_loaded_at
+            description: "Timestamp of the data load."
+
+          - name: reviewerID
+            description: "Unique identifier for the reviewer, e.g.: A1KLRMWW2FWPL4"
+
+          - name: asin
+            description: "Amazon Standard Identification Number (ASIN) of the product, e.g.: 31887"
+
+          - name: reviewerName
+            description: "Name of the reviewer, e.g.: Amazon Customer 'cameramom'"
+
+          - name: helpful
+            description: "Array of upvotes and downvotes on the review, e.g.: [0, 0]"
+
+          - name: reviewText
+            description: "Full text of the product review, e.g.: This is a great tutu and at a really great price. It doesn't look cheap at all."
+
+          - name: overall
+            description: "Overall rating given by the reviewer (1-5 scale), e.g.: 5"
+
+          - name: summary
+            description: "Brief summary of the review, e.g.: Great tutu - not cheaply made"
+
+          - name: unixReviewTime
+            description: "Time the review was posted, in Unix timestamp format, e.g.: 1297468800"
+
+          - name: reviewTime
+            description: "Date the review was posted, in human-readable format, e.g.: 02 12, 2011"
+
+      - name: amazon_metadata
+        description: "Amazon product metadata, including categories, images, prices, and sales ranks."
+        meta:
+          dagster:
+            asset_key: ["raw_amazon_metadata"]
+        columns:
+          - name: _meta_run_id
+            description: "Dagster run ID."
+
+          - name: _meta_loaded_from
+            description: "Path to S3 file used to load data from."
+
+          - name: _meta_loaded_at
+            description: "Timestamp of the data load."
+
+          - name: metadataid
+            description: "Unique identifier for the metadata entry, e.g.: 2005401"
+
+          - name: asin
+            description: "Amazon Standard Identification Number (ASIN) of the product, e.g.: B00004SR8Z"
+
+          - name: salesrank
+            description: "Sales rank of the product by category, e.g.: {'Clothing': 1631}"
+
+          - name: imurl
+            description: "URL of the product image, e.g.: http://ecx.images-amazon.com/images/I/41RfWLMDFWL._SY445_.jpg"
+
+          - name: categories
+            description: "Nested categories that the product belongs to, e.g.: [['Clothing, Shoes & Jewelry']]"
+
+          - name: title
+            description: "Title of the product, e.g.: Lewis N. Clark Deluxe Neck Stash"
+
+          - name: description
+            description: "Description of the product, e.g.: "
+
+          - name: price
+            description: "Price of the product in USD, e.g.: 12.8"
+
+          - name: related
+            description: "Products related to this item, including also_bought and also_viewed, e.g.: {'also_bought': ['B004RJWFDU'], 'also_viewed': ['B00920ZC3Y']}"
+
+          - name: brand
+            description: "Brand of the product, e.g.: Lewis N. Clark"
